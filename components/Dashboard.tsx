@@ -1,22 +1,25 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { 
-  TrendingUp, 
-  Users, 
-  MessageCircle, 
-  DollarSign,
-  ArrowUp,
-  ArrowDown
-} from 'lucide-react'
+import { TrendingUp, Users, MessageCircle, DollarSign, ArrowUp, ArrowDown } from 'lucide-react'
 import { LineChart, Line, Area, AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import { mockSales } from '@/lib/mockData'
 
 export default function Dashboard() {
-  const [stats, setStats] = useState(mockSales)
+  const [stats, setStats] = useState({
+    total: 147897,
+    clients: 234,
+    messages: 1247,
+    salesByDay: [
+      { day: "Seg", sales: 12500 },
+      { day: "Ter", sales: 18200 },
+      { day: "Qua", sales: 14900 },
+      { day: "Qui", sales: 21300 },
+      { day: "Sex", sales: 27800 },
+      { day: "Sáb", sales: 9800 },
+      { day: "Dom", sales: 5200 },
+    ]
+  })
 
-  // Simular atualização em tempo real
   useEffect(() => {
     const interval = setInterval(() => {
       setStats(prev => ({
@@ -64,17 +67,14 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="space-y-6 animate-fade-up">
+    <div className="space-y-6">
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cards.map((card, index) => {
           const Icon = card.icon
           return (
-            <motion.div
+            <div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
               className="bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex justify-between items-start mb-4">
@@ -88,28 +88,15 @@ export default function Dashboard() {
               </div>
               <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">{card.title}</h3>
               <p className="text-2xl font-bold text-gray-900 dark:text-white">{card.value}</p>
-            </motion.div>
+            </div>
           )
         })}
       </div>
 
       {/* Gráfico */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-2xl shadow-lg p-6"
-      >
+      <div className="bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-2xl shadow-lg p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Vendas por Dia da Semana</h3>
-          <div className="flex gap-2">
-            <button className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-              Semana
-            </button>
-            <button className="px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-              Mês
-            </button>
-          </div>
         </div>
         <ResponsiveContainer width="100%" height={350}>
           <AreaChart data={stats.salesByDay}>
@@ -135,15 +122,10 @@ export default function Dashboard() {
             <Line type="monotone" dataKey="sales" stroke="#3b82f6" strokeWidth={2} dot={{ fill: '#3b82f6' }} />
           </AreaChart>
         </ResponsiveContainer>
-      </motion.div>
+      </div>
 
       {/* Atividades Recentes */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-2xl shadow-lg p-6"
-      >
+      <div className="bg-gradient-to-br dark:from-gray-800 dark:to-gray-900 from-white to-gray-50 rounded-2xl shadow-lg p-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Atividades Recentes</h3>
         <div className="space-y-3">
           {[
@@ -159,7 +141,7 @@ export default function Dashboard() {
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }
