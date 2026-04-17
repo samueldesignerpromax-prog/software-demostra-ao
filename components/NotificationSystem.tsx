@@ -1,9 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { Bell, X, Sparkles } from 'lucide-react'
-import { generateNotification } from '@/lib/mockData'
+import { Sparkles, X } from 'lucide-react'
 
 interface Notification {
   id: number
@@ -20,28 +18,25 @@ export default function NotificationSystem() {
     if (!demoMode) return
 
     const interval = setInterval(() => {
-      const fakeNotification = generateNotification()
-      const newNotification: Notification = {
+      const fakeNotifications = [
+        { title: "Novo cliente!", message: "João acabou de se cadastrar", type: "success" as const },
+        { title: "Venda realizada!", message: "R$ 997 em Chatbot Pro AI", type: "success" as const },
+        { title: "Lead qualificado", message: "Maria solicitou contato", type: "info" as const },
+      ]
+      const newNotification = {
         id: Date.now(),
-        title: fakeNotification.title,
-        message: fakeNotification.message,
-        type: fakeNotification.type as any
+        ...fakeNotifications[Math.floor(Math.random() * fakeNotifications.length)]
       }
       
       setNotifications(prev => [newNotification, ...prev].slice(0, 5))
       
-      // Remover notificação após 5 segundos
       setTimeout(() => {
         setNotifications(prev => prev.filter(n => n.id !== newNotification.id))
       }, 5000)
-    }, 10000) // Notificação a cada 10 segundos
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [demoMode])
-
-  const removeNotification = (id: number) => {
-    setNotifications(prev => prev.filter(n => n.id !== id))
-  }
 
   const getTypeStyles = (type: string) => {
     switch(type) {
@@ -68,30 +63,25 @@ export default function NotificationSystem() {
 
       {/* Notificações */}
       <div className="fixed top-24 right-6 z-50 space-y-2">
-        <AnimatePresence>
-          {notifications.map((notification) => (
-            <motion.div
-              key={notification.id}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 100 }}
-              className={`${getTypeStyles(notification.type)} backdrop-blur-sm border rounded-xl p-4 min-w-[280px] shadow-lg`}
-            >
-              <div className="flex justify-between items-start gap-3">
-                <div className="flex-1">
-                  <h4 className="font-semibold text-sm">{notification.title}</h4>
-                  <p className="text-xs mt-1 opacity-80">{notification.message}</p>
-                </div>
-                <button
-                  onClick={() => removeNotification(notification.id)}
-                  className="hover:bg-white/10 rounded-lg p-1 transition"
-                >
-                  <X className="w-3 h-3" />
-                </button>
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`${getTypeStyles(notification.type)} backdrop-blur-sm border rounded-xl p-4 min-w-[280px] shadow-lg animate-slide-right`}
+          >
+            <div className="flex justify-between items-start gap-3">
+              <div className="flex-1">
+                <h4 className="font-semibold text-sm">{notification.title}</h4>
+                <p className="text-xs mt-1 opacity-80">{notification.message}</p>
               </div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              <button
+                onClick={() => setNotifications(prev => prev.filter(n => n.id !== notification.id))}
+                className="hover:bg-white/10 rounded-lg p-1 transition"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   )
