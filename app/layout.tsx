@@ -8,7 +8,6 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'SalesBot Pro - Plataforma de Vendas e Atendimento com IA',
   description: 'Solução completa para automatizar vendas e atendimento. Aumente suas conversões em até 300% com nosso chatbot inteligente.',
-  keywords: 'chatbot, vendas, automação, IA, atendimento',
 }
 
 export default function RootLayout({
