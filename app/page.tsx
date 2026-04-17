@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { LayoutDashboard, ShoppingBag, Users, Sparkles } from 'lucide-react'
 import Dashboard from '@/components/Dashboard'
 import LeadForm from '@/components/LeadForm'
 import Chatbot from '@/components/Chatbot'
 import NotificationSystem from '@/components/NotificationSystem'
-import { LayoutDashboard, Users, ShoppingBag, MessageCircle, TrendingUp } from 'lucide-react'
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('dashboard')
@@ -35,9 +35,6 @@ export default function Home() {
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                 <span>Sistema Online</span>
               </div>
-              <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:shadow-lg transition">
-                Nova Venda
-              </button>
             </div>
           </div>
         </div>
@@ -84,16 +81,14 @@ export default function Home() {
 
 // Componente ProductsPage
 function ProductsPage() {
-  const [products, setProducts] = useState([
+  const products = [
     { id: 1, name: "Chatbot Pro AI", price: 997, image: "https://via.placeholder.com/300x200/3b82f6/white?text=Chatbot+Pro", description: "Chatbot com inteligência artificial para atendimento 24/7" },
     { id: 2, name: "Automação de Marketing", price: 1497, image: "https://via.placeholder.com/300x200/8b5cf6/white?text=Marketing+Auto", description: "Sistema completo de automação de marketing digital" },
     { id: 3, name: "CRM Inteligente", price: 1997, image: "https://via.placeholder.com/300x200/10b981/white?text=CRM+Smart", description: "CRM com análise preditiva de vendas" },
     { id: 4, name: "WhatsApp Business API", price: 499, image: "https://via.placeholder.com/300x200/ef4444/white?text=WhatsApp+API", description: "Integração oficial com WhatsApp Business" },
-  ])
+  ]
 
   const handleBuy = (product: any) => {
-    // Disparar evento para o chatbot (simulação)
-    console.log(`Compra iniciada: ${product.name}`)
     alert(`🎉 Produto adicionado ao carrinho!\n\n${product.name}\nR$ ${product.price}\n\nNosso chatbot entrará em contato para finalizar a compra.`)
   }
 
